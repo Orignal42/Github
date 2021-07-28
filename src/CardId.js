@@ -11,7 +11,9 @@ class CardId extends Component{
   }
   }
   componentDidMount() {
-    fetch("https://api.github.com/events").then((response)=>response.json()).then(
+    fetch("https://api.github.com/events")
+      .then((response)=>response.json())
+        .then(
       (data)=>{
       
         console.log(data)

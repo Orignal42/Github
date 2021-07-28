@@ -7,68 +7,86 @@ import CardList from './CardList.js'
 import CardId from './CardId';
 
 
+function App(){
 
+  const [login,setLogin]=useState('');
+  const [followers,setFollowers]=useState('');
+  const [repos,setRepos]=useState('');
+  const [avatar,setAvatar]=useState('');
+  const [UserInput,setUserInput]=useState('');
 
-const MOVIE_API_URL = "https://api.github.com/users"; // you should replace this with yours
-
-
-const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
-    fetch(MOVIE_API_URL)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        setMovies(jsonResponse.Search);
-        setLoading(false);
-      });
-  }, []);
-
-    const search = searchValue => {
-    setLoading(true);
-    setErrorMessage(null);
-
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        if (jsonResponse.Response === "True") {
-          setMovies(jsonResponse.Search);
-          setLoading(false);
-        } else {
-          setErrorMessage(jsonResponse.Error);
-          setLoading(false);
-        }
-      });
-  	};
-
+  useEffect(()=> {
+    fetch("https://api.github.com/users")
+      .then((res)=>res.json())
+        .then(data=>{
+          setData(data)
+      
+        console.log(data)
+     
+        
+  });
+   
+  },[]);
+  const setData = ({
+    login, 
+    followers,
+     avatar_url ,
+      public_repos
+    })=>{
+  setLogin (login);
+  setFollowers(followers);
+  setRepos (public_repos);
+  setAvatar(avatar_url);
   
+  };
+
+  const handleSearch= e => {
+    setUserInput(e.target.value);
+  }
+
+  const handleSubmit=()=>{
+    fetch(`https://api.github.com/users/${UserInput}`)
+    .then((res)=>res.json())
+        .then(data=>{
+          setData(data);
+
+
+        });
+      }
+
   return (
- <div>
-  {/* <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src={avatar} />
-  <Card.Body>
-    <Card.Title>{login}</Card.Title>
-    <Card.Text>
-{followers}
-{following}
-{repos}
+    <div>
+          <div className='navbar'><h1>github</h1></div>
+          <div className='Search'>
+            {/* <Form>
+              <Form.Input></Form.Input>
+              <Form.Button content='submit' type='submit'/>
+            </Form> */}
+          </div>
+          <div className='Card'>
+          <Card style={{ width: '18rem' }}>
+          <Card.Img variant="top" src={avatar} />
+          <Card.Body>
+            <Card.Title>{login}</Card.Title>
+            <Card.Text>
+        {followers}
+        {repos}
+            </Card.Text>
 
-    </Card.Text>
-    <Button variant="primary">Go somewhere</Button>
-  </Card.Body>
-</Card> */}
+          </Card.Body>
+        </Card>
+        </div>
 
-<Formulaire/>
-
-  {/* <h1>Derniers événements github</h1>
-<CardId/>
-<h1>Liste des user githubs</h1>
-<CardList/> */}
-
- </div>
-  );
-}
-
+        
+          <h1>Derniers événements github</h1>
+        <CardId/>
+        <h1>Liste des user githubs</h1>
+        <CardList/>
+  
+   </div>
+    );
+  }
+  
 export default App;
+
+
