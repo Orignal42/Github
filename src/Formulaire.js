@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { Button,Card, Form } from 'react-bootstrap';
+
+
 
 class Formulaire extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             userInput:'',
-            items:[],
+            data:[],
         }
     }
 
@@ -16,23 +19,34 @@ onChange(event){
         });
 } 
 
-
+componentDidMount() {
+    fetch(`https://api.github.com/users`).then((response)=>response.json()).then(
+      (data)=>{
+      
+        console.log(data)
+        this.setState({ data : data})
+        
+  });
+   
+  }
 
 
 
 render(){
     return(
         <div>
-            <h1 align='center'>Search Github user</h1>
-            <form className='form-row align-items-center'>
-                <input 
-                value={this.state.userInput} 
-                type='text' 
-                placeholder='Chercher les utilisateurs'
-                onChange={this.onChange.bind(this)}    
-                />
-                <button>Chercher</button>
-            </form>
+    <Form>
+  <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Label>Search</Form.Label>
+    <Form.Control type="text" placeholder="Search" />
+    <Form.Text className="text-muted">
+    
+    </Form.Text>
+  </Form.Group>
+  <Button   variant="primary" type="submit">
+    Submit
+  </Button>
+</Form>
         
         </div>
 

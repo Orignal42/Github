@@ -11,10 +11,10 @@ class CardId extends Component{
   }
   }
   componentDidMount() {
-    fetch("https://api.github.com/users/Orignal42").then((response)=>response.json()).then(
+    fetch("https://api.github.com/events").then((response)=>response.json()).then(
       (data)=>{
       
-        // console.log(data)
+        console.log(data)
         this.setState({ data : data})
         
   });
@@ -23,9 +23,18 @@ class CardId extends Component{
   
   render() {
     return(
+      console.log(this.state.data),
       <div>
- <p>{this.state.data.login}</p>
- <p>{this.state.data.public_repos}</p>
+ 
+ <p>{this.state.data.id}</p>
+ <p>{this.state.data.type}</p>
+
+ {this.state.data.map(dat => (
+              <li key={dat.login}>
+                {dat.id}
+                {dat.type}
+              </li>
+            ))}
       </div>
 
   );

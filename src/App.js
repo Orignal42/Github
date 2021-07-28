@@ -8,37 +8,40 @@ import CardId from './CardId';
 
 
 
-function App() {
-  const[login,setLogin]= useState('');
-  const[followers,setFollowers]= useState('');
-  const[following,setFollowing]= useState('');
-  const[repos,setRepos]= useState('');
-  const[avatar,setAvatar]= useState('');
-  const[error,setError]= useState(null);
 
-useEffect(()=>{
-fetch("https://api.github.com/users/Orignal42")
-.then(res=>res.json())
-.then(data=>{
-  setData(data)
-// console.log(data);
-});
-  },[]);
-  const setData=({
-   
-     login,
-     followers,
-     following,
-     public_repos,
-     avatar_url
-  }) =>{
-setLogin(login);
-setFollowers(followers);
-setFollowing(following);
-setRepos(public_repos);
-setAvatar(avatar_url);
-  };
+const MOVIE_API_URL = "https://api.github.com/users"; // you should replace this with yours
 
+
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+    useEffect(() => {
+    fetch(MOVIE_API_URL)
+      .then(response => response.json())
+      .then(jsonResponse => {
+        setMovies(jsonResponse.Search);
+        setLoading(false);
+      });
+  }, []);
+
+    const search = searchValue => {
+    setLoading(true);
+    setErrorMessage(null);
+
+    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
+      .then(response => response.json())
+      .then(jsonResponse => {
+        if (jsonResponse.Response === "True") {
+          setMovies(jsonResponse.Search);
+          setLoading(false);
+        } else {
+          setErrorMessage(jsonResponse.Error);
+          setLoading(false);
+        }
+      });
+  	};
 
   
   return (
@@ -58,8 +61,11 @@ setAvatar(avatar_url);
 </Card> */}
 
 <Formulaire/>
+
+  {/* <h1>Derniers événements github</h1>
 <CardId/>
-<CardList/>
+<h1>Liste des user githubs</h1>
+<CardList/> */}
 
  </div>
   );
