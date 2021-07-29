@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Button,Card, Form } from 'react-bootstrap';
 
 
 class CardId extends Component{
@@ -16,7 +16,7 @@ class CardId extends Component{
         .then(
       (data)=>{
       
-        // console.log(data)
+      console.log(data)
         this.setState({ data : data})
         
   });
@@ -25,19 +25,29 @@ class CardId extends Component{
   
   render() {
     return(
-      // console.log(this.state.data),
+      //  console.log(this.state.data),
       <div>
- 
- <p>{this.state.data.id}</p>
- <p>{this.state.data.type}</p>
 
- {this.state.data.map(dat => (
-              <li key={dat.login}>
-                {dat.id}
-                {dat.type}
-              </li>
-            ))}
+<div className='Card'>
+{this.state.data.map(dat => (
+      <Card style={{ width: '18rem' }}>
+
+  <Card.Body>
+    <Card.Title>{dat.id}</Card.Title>
+<Card.Text>
+<p>{dat.type}</p>
+<p>{dat.actor.login}</p>
+<p>{dat.actor.avatar_url}</p>
+
+</Card.Text>
+    
+  </Card.Body>
+</Card>
+     ))}
+   </div> 
       </div>
+
+      
 
   );
 
