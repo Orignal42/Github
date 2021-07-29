@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button,Card } from 'react-bootstrap';
+
 
 class CardList extends Component{
 constructor(props){
@@ -23,7 +23,7 @@ componentDidMount() {
 
      
         return (
-          console.log(this.state.data),
+          // console.log(this.state.data),
           <ul>
           
           <p>{this.state.data.login}</p>
