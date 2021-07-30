@@ -7,7 +7,9 @@ class Formulaire extends Component{
     super(props);
     this.state = {      
     UserInput:'',
-    data:[]
+    Rez:'',
+    data:[],
+    error:null
     //{
   //     "login": "HamzaKarfa",
   //     "id": 62702495,
@@ -55,48 +57,75 @@ class Formulaire extends Component{
 
   }
   componentDidUpdate() {
+
     if (!this.state.data.length) {
       
       fetch(`https://api.github.com/users/${this.state.UserInput}`)
-        .then((response)=>response.json())
+
+   
+        .then((response)=>{
+          console.log(response);
+          if (response.ok) {
+            response.json()
+          }else{
+            new Error(response.status)
+this.setState({error: 'fefezfzefzefzef'})
+          }
+        })
+            
+     
           .then((data)=>{
-            // console.log(data);
-            this.setState({ data : data})
+             console.log(data);
+            this.setState({ data : data})  
+           
+             
+            })  .catch((error)=> { 
+             
+              console.log('Je suis là') ;
+          
+        
           });
+      
       }
     }
       
   render() {
-    return (
-      <div>
-<div className='Form'>
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Nom</Form.Label>
-          <Form.Control type="text" placeholder="" ref={this.input}/>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-</div>
-<div className='Card'>
-      <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src={this.state.data.avatar_url} />
-  <Card.Body>
-    <Card.Title>{this.state.data.login}</Card.Title>
-    <Card.Text>
-    <p>Nombre de repos</p>
-    {this.state.data.public_repos}
-    <p>Nombre de followers</p>
-    {this.state.data.followers}
-    </Card.Text>
-    
-  </Card.Body>
-</Card>
-   </div> 
-   </div>
-   );
+    console.log(this.state.error);
+    if (this.state.error != null) {
+      return(<h1>Erreur</h1>)
+    }else{
+
+      return (
+        <div>
+          <div className='Form'>
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Nom</Form.Label>
+                    <Form.Control type="text" placeholder="" ref={this.input}/>
+                  </Form.Group>
+                  <Button variant="primary" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+          </div>
+          <div className='Card'>
+                <Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={this.state.data.avatar_url} />
+            <Card.Body>
+              <Card.Title>{this.state.data.login}</Card.Title>
+              <Card.Text>
+              <p>Nombre de repos</p>
+              {this.state.data.public_repos}
+              <p>Nombre de followers</p>
+              {this.state.data.followers}
+              </Card.Text>
+              
+            </Card.Body>
+          </Card>
+        </div> 
+      </div>
+     );
+    }
     
   }
 

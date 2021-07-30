@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button,Card, Form } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 
 class CardId extends Component{
@@ -16,7 +16,7 @@ class CardId extends Component{
         .then(
       (data)=>{
       
-      console.log(data)
+      // console.log(data)
         this.setState({ data : data})
         
   });
